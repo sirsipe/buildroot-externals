@@ -7,8 +7,10 @@ menuconfig BR2_PACKAGE_RPI_WIFI
 	select BR2_PACKAGE_WPA_SUPPLICANT_NL80211
 	help
 	  This package configures WiFi for Raspberry Pi
-	  and allows also configuring OpenSSH for root access,
+	  and allows also configuring OpenSSH with root access,
 	  resulting in very easy headless access for RPi devices over WiFi.
+	  Selects also havenged to aid with random generator initialization 
+	  with OpenSSH for significanly faster boot.
 	  
 	  You MUST first apply the _defconfig, i.e.
 	     make raspberrypi0w_defconfig
@@ -36,13 +38,13 @@ config BR2_PACKAGE_RPI_WIFI_PWD
 	string "Wifi Password"
 
 config BR2_PACKAGE_RPI_WIFI_SSH_WITH_ROOT_LOGIN
-	bool "sshd with root login enabled"
+	bool "OpenSSH Server with root login enabled + HAVENGED for faster boot"
 	select BR2_PACKAGE_OPENSSH
 	select BR2_PACKAGE_OPENSSH_SERVER
 	select BR2_PACKAGE_HAVEGED
 	
 config BR2_TARGET_GENERIC_ROOT_PASSWD
-	string "root password (COMPULSORY!)"
+	string "Root password (COMPULSORY!)"
 	depends on BR2_PACKAGE_RPI_WIFI_SSH_WITH_ROOT_LOGIN
 
 endif
