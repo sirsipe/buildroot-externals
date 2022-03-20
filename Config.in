@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/rpi-wifi/Config.in"
