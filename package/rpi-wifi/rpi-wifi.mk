@@ -5,7 +5,7 @@
 ################################################################################
 
 RPI_WIFI_VERSION = 1.0
-RPI_WIFI_SITE = $(TOPDIR)/../external/package/rpi-wifi/src
+RPI_WIFI_SITE = $(TOPDIR)/../buildroot-externals/package/rpi-wifi/src
 RPI_WIFI_SITE_METHOD = local
 
 ifeq ($(BR2_PACKAGE_RPI_WIFI),y)
