@@ -1,4 +1,4 @@
-config BR2_PACKAGE_RPI_WIFI
+menuconfig BR2_PACKAGE_RPI_WIFI
 	bool "rpi-wifi"
 	select BR2_PACKAGE_BRCMFMAC_SDIO_FIRMWARE_RPI
 	select BR2_PACKAGE_BRCMFMAC_SDIO_FIRMWARE_RPI_WIFI
@@ -6,7 +6,9 @@ config BR2_PACKAGE_RPI_WIFI
 	select BR2_PACKAGE_WPA_SUPPLICANT
 	select BR2_PACKAGE_WPA_SUPPLICANT_NL80211
 	help
-	  This package configures WiFi for Raspberry Pi.
+	  This package configures WiFi for Raspberry Pi
+	  and allows also configuring OpenSSH for root access,
+	  resulting in very easy headless access for RPi devices over WiFi.
 	  
 	  You MUST first apply the _defconfig, i.e.
 	     make raspberrypi0w_defconfig
@@ -32,4 +34,15 @@ config BR2_PACKAGE_RPI_WIFI_SSID
 
 config BR2_PACKAGE_RPI_WIFI_PWD
 	string "Wifi Password"
+
+config BR2_PACKAGE_RPI_WIFI_SSH_WITH_ROOT_LOGIN
+	bool "sshd with root login enabled"
+	select BR2_PACKAGE_OPENSSH
+	select BR2_PACKAGE_OPENSSH_SERVER
+	select BR2_PACKAGE_HAVEGED
+	
+config BR2_TARGET_GENERIC_ROOT_PASSWD
+	string "root password (COMPULSORY!)"
+	depends on BR2_PACKAGE_RPI_WIFI_SSH_WITH_ROOT_LOGIN
+
 endif

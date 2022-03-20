@@ -28,6 +28,11 @@ define RPI_WIFI_CONFIGURE_INITTAB
 endef
 endif
 
+ifeq ($(BR2_PACKAGE_RPI_WIFI_SSH_WITH_ROOT_LOGIN), y)
+define RPI_WIFI_CONFIGURE_SSHD_CONFIG
+	$(SED) 's/^\s*#*\s*PermitRootLogin.*/PermitRootLogin yes/' $(TARGET_DIR)/etc/ssh/sshd_config
+endef
+endif
 endif
 
 
@@ -36,6 +41,7 @@ define RPI_WIFI_CONFIGURE_CMDS
 	$(RPI_WIFI_CONFIGURE_WPA_SUPPLICANT)
 	$(RPI_WIFI_CONFIGURE_NETWORK_INTERFACES)
 	$(RPI_WIFI_CONFIGURE_INITTAB)
+	$(RPI_WIFI_CONFIGURE_SSHD_CONFIG)
 endef
 
 
