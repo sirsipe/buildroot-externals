@@ -3,8 +3,8 @@ This and that as buildroot BR2_EXTERNAL config. First follow the **Initial setup
 
 ## Initial setup
 ```
-mkdir myproject
-cd myproject
+mkdir ~/myproject
+cd ~/myproject
 git clone git://git.buildroot.net/buildroot
 git clone https://github.com/sirsipe/buildroot-externals
 ```
@@ -14,7 +14,7 @@ git clone https://github.com/sirsipe/buildroot-externals
 Change the `raspberrypi0w_defconfig` according to your RPi board. Not tested but I see no reason why this wouldn't work at least with RPi3, but possibly also with RPi4 and Zero W2.
 
 ```
-cd buildroot
+cd ~/myproject/buildroot
 make raspberrypi0w_defconfig
 make BR2_EXTERNAL=../buildroot-externals menuconfig
 ```
