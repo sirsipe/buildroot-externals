@@ -1,1 +1,4 @@
+source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/hello-gps/Config.in"
+source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/hello-raylib/Config.in"
+source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/raylib/Config.in"
 source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/rpi-wifi/Config.in"

@@ -1,0 +1,4 @@
+config BR2_PACKAGE_HELLO_GPS
+	bool "hello-gps"
+	help
+	  Testing c++ with gps library 

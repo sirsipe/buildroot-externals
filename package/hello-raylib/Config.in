@@ -1,0 +1,5 @@
+config BR2_PACKAGE_HELLO_RAYLIB
+	bool "hello-raylib"
+	select BR2_PACKAGE_RAYLIB
+	help
+	  Testing raylib 
