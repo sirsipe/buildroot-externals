@@ -1,9 +1,9 @@
-CFLAGS = -lraylib -lgps -lpthread
+CFLAGS = -lraylib -lgps -lpthread -lstdc++
 
 .PHONY: clean
 
-osd: osd.c
-	$(CC) $(CFLAGS) -o '$@' '$<'
+osd: osd.cpp channels.cpp
+	$(CC) $(CFLAGS) -o '$@' $^
 
 clean:
 	rm osd
