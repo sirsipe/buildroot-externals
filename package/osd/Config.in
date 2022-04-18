@@ -1,0 +1,8 @@
+config BR2_PACKAGE_OSD
+	bool "osd"
+	depends on BR2_PTHREADS_NATIVE
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	depends on BR2_USE_WCHAR
+	select BR2_PACKAGE_RAYLIB
+	help
+	  On-Screen Display showing flight data 

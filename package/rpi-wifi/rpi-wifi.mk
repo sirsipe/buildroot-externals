@@ -21,7 +21,7 @@ endef
 
 ifeq ($(BR2_PACKAGE_RPI_WIFI_MODPROBE),y)
 define RPI_WIFI_CONFIGURE_INITTAB 
-	if ! grep -Fxq "modprobe brcmfmac" $(TARGET_DIR)/etc/inittab; \
+	if ! grep -Fq "modprobe brcmfmac" $(TARGET_DIR)/etc/inittab; \
 	then \
 		$(SED) '/# now run any rc scripts/i\::sysinit:\/sbin\/modprobe brcmfmac' $(TARGET_DIR)/etc/inittab; \
 	fi

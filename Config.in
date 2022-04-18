@@ -1,4 +1,6 @@
 source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/hello-gps/Config.in"
+source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/hello-i2c/Config.in"
 source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/hello-raylib/Config.in"
+source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/osd/Config.in"
 source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/raylib/Config.in"
 source "$BR2_EXTERNAL_SIRSIPE_EXTERNALS_PATH/package/rpi-wifi/Config.in"

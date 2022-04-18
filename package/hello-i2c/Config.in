@@ -1,0 +1,4 @@
+config BR2_PACKAGE_HELLO_I2C
+	bool "hello-i2c"
+	help
+	  Testing i2c 
