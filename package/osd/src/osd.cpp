@@ -1,39 +1,33 @@
 #include "raylib.h"
-//#include <gps.h>
-//#include <math.h>
 #include <stdio.h>
-//#include <errno.h>
-//#include <unistd.h>
-#include "channels.h"
+#include "channelsservice.h"
+#include "gpsservice.h"
 
-
-/*
-#define MODE_STR_NUM 4
-
-static char* mode_str[MODE_STR_NUM] = {
-	"n/a",
-	"None",
-	"2D",
-	"3D"
-};
-*/
 
 int main(void)
 {
 
-    
-    
-
     InitWindow(800, 450, "raylib [core] example - basic window");
-    Channels::Takeover();
+    ChannelsService channels;
+    GPSService gps;
+
+    channels.StartService();
+    gps.StartService();
+
     while (!WindowShouldClose())
     {
 
         short chs[CHANNELS];
-        Channels::GetChannels(chs);
+        channels.GetChannels(chs);
 
         BeginDrawing();
         ClearBackground(BLANK);
+
+        char gpsstr[100] = {0};
+		sprintf(gpsstr, "GPS Fix: %d", (int)gps.GetFixStatus());
+        DrawText(gpsstr, 190, 150, 20, WHITE);
+        DrawText(gpsstr, 191, 151, 20, BLACK);
+
         for(int i = 0; i < CHANNELS; i++)
         {
 	    	char str[100] = {0};
@@ -42,12 +36,15 @@ int main(void)
            	DrawText(str, 191, 201 + (25*i), 20, BLACK);
             
         }
+
+
         EndDrawing();
     }
 
     CloseWindow();
 
-    Channels::Release();
-
+    channels.StopService();
+    gps.StopService();
+    
     return 0;
 }
