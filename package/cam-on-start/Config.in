@@ -1,0 +1,5 @@
+config BR2_PACKAGE_CAM_ON_START
+	bool "cam-on-start"
+    depends on BR2_PACKAGE_RPI_USERLAND
+	help
+	  Enable RPI Camera preview as fast as possible after boot.

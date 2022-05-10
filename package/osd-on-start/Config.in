@@ -1,0 +1,5 @@
+config BR2_PACKAGE_OSD_ON_START
+	bool "osd-on-start"
+    depends on BR2_PACKAGE_OSD
+	help
+	  Launches OSD as last startup step.

@@ -14,7 +14,7 @@ kernel=zImage
 
 # Disable overscan assuming the display supports displaying the full resolution
 # If the text shown on the screen disappears off the edge, comment this out
-disable_overscan=1
+# disable_overscan=1
 
 # How much memory in MB to assign to the GPU on Pi models having
 # 256, 512 or 1024 MB total memory
@@ -23,7 +23,7 @@ gpu_mem_512=128
 gpu_mem_1024=128
 
 # fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
-# dtoverlay=miniuart-bt
+#dtoverlay=miniuart-bt
 
 # enable autoprobing of Bluetooth driver without need of hciattach/btattach
 # dtoverlay=krnbt=on
@@ -32,3 +32,5 @@ dtoverlay=disable-bt
 
 dtparam=i2c_arm=on
 dtparam=i2c1=on
+
+disable_splash=1
