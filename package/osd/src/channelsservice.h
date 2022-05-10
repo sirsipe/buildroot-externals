@@ -47,10 +47,8 @@ private:
         protected:
             virtual bool PreServiceLoop() override;
             virtual bool ServiceLoopTick() override;
-            virtual void PostServiceLoop() override;
             
         private:
-            int m_I2CFileDescriptor;
             short m_Channels[CHANNELS];
     };
 

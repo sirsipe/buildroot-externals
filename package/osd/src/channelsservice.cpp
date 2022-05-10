@@ -1,9 +1,12 @@
 #include "channelsservice.h"
+#include "i2cbus.h"
+
 #include <string.h>     // strcat
 #include <unistd.h>     // nanosleep
 #include <fcntl.h>      // O_WRONLY
 #include <sys/ioctl.h>  // ioctl
 #include <linux/i2c-dev.h> // I2C_SLAVE
+
 
 #define MASTER_PING_GPIO "4"
 
@@ -12,7 +15,7 @@
 #define MASTER_PING_GPIO_DIR  "/sys/class/gpio/gpio" MASTER_PING_GPIO "/direction"
 #define MASTER_PING_GPIO_VALUE  "/sys/class/gpio/gpio" MASTER_PING_GPIO "/value"
 
-#define I2C_DEV "/dev/i2c-1"
+
 
 #define I2C_ADDR_ARDUINO 0x09
 #define I2C_ADDR_SERVO 0x40
@@ -191,19 +194,16 @@ void ChannelsService::ChannelRouter::GetChannels(short channels[CHANNELS])
 }
 
 /**
- * @brief Open the I2C device before entering the loop.
+ * @brief Ensure the I2C can be opened or is open already. 
  * 
  * @return true if successful
  * @return false otherwise
  */
 bool ChannelsService::ChannelRouter::PreServiceLoop()
 {
-    m_I2CFileDescriptor = open(I2C_DEV, O_RDWR);
-    if (!m_I2CFileDescriptor)
-        return false;
-
-    return true;
+    return I2CBus::getInstance().Open() || I2CBus::getInstance().IsOpen();
 }
+
 
 /**
  * @brief Service loop that reads the PWM values from arduino
@@ -216,15 +216,30 @@ bool ChannelsService::ChannelRouter::PreServiceLoop()
 bool ChannelsService::ChannelRouter::ServiceLoopTick()
 {
     char buffer[CHANNELS];
-    if (ioctl(m_I2CFileDescriptor, I2C_SLAVE, I2C_ADDR_ARDUINO) < 0)
-        return false;
-            
-    read(m_I2CFileDescriptor, buffer, CHANNELS);
 
-    if (ioctl(m_I2CFileDescriptor, I2C_SLAVE, I2C_ADDR_SERVO) < 0)
+    I2CCALL getBuffer = [&buffer](int fd){
+    
+        if (ioctl(fd, I2C_SLAVE, I2C_ADDR_ARDUINO) < 0)
+            return false;
+                
+        read(fd, buffer, CHANNELS);
+        return true;
+    };
+
+    if (!I2CBus::getInstance().Call(getBuffer))
         return false;
 
     char pwm[5];
+
+    I2CCALL setPWM = [&pwm](int fd){
+    
+        if (ioctl(fd, I2C_SLAVE, I2C_ADDR_ARDUINO) < 0)
+            return false;
+                
+        write(fd, pwm, 5);
+        return true;
+    };    
+
     for (int i = 0; i < CHANNELS; i++)
     {
         short val = (short)buffer[i];// == 0 ? 0 : map(buffer[i], 1, 0xFF, 900, 2100);
@@ -249,19 +264,11 @@ bool ChannelsService::ChannelRouter::ServiceLoopTick()
         pwm[3] = buffer[i]; //(char)val;
         pwm[4] = 0; //(char)(val >> 8);
 
-        write(m_I2CFileDescriptor, pwm, 5);
+        if(!I2CBus::getInstance().Call(setPWM))
+            return false;
+      
     }
 
     return true;
 }
 
-/**
- * @brief Close the I2C device after exiting the service loop.
- * 
- */
-void ChannelsService::ChannelRouter::PostServiceLoop()
-{
-    if (m_I2CFileDescriptor)
-        close(m_I2CFileDescriptor);
-    m_I2CFileDescriptor = 0;
-}
