@@ -30,3 +30,41 @@ make BR2_EXTERNAL=../buildroot-externals menuconfig
 3. Exit & Save
 
 4. `make` & wait
+
+## Package: Raylib (v.4.0.0)
+Depends on **libgles** and **WCHAR toolchain support**.
+
+https://github.com/raysan5/raylib
+
+This package installs raylib libraries that can be quite easily used in C/C++ game/GUI dev for RPi. Uses OpenGLES backend.
+
+## Package: osd
+Depends on **libgles**, **pthreads** and **WCHAR toolchain support**. Selects **raylib**.
+
+On-screen display. See https://github.com/sirsipe/TheUAVProject
+
+## Package: osd-on-start
+Depends on **osd**
+
+Launches osd automatically on boot as last init script.
+
+## Package: cam-on-start
+Depends on **rpi-userland**
+
+Launches **raspivid** on sligtly opaque preview mode as early in the boot as possible.
+
+## Package: hello-raylib
+Depends on **Raylib**
+
+A very simple C application that tests raylib by showing a string of text on the screen. Installs to /usr/bin/hello-raylib. 
+
+## Package: hello-gps
+Depends on **gpsd**
+
+Simple C application testing that gpsd actually gets some data from the attached device. Listens to 127.0.0.1:2947 which is the default data sink of gpsd.
+Note that a loopback network interface must be defined or otherwise gpsd can't initialize the data sink. 
+
+## Package: hello-i2c
+
+Very **osd** specific testing. Don't use. Should be deleted. 
+
